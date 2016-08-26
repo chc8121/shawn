@@ -1,26 +1,40 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
+using Android.Content;
 
 namespace shawn.Droid
 {
 	[Activity(Label = "shawn", MainLauncher = true, Icon = "@mipmap/icon")]
 	public class MainActivity : Activity
 	{
-		int count = 1;
-
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 
-			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
 
-			// Get our button from the layout resource,
-			// and attach an event to it
-			Button button = FindViewById<Button>(Resource.Id.myButton);
+			var buttonMap = FindViewById<Button>(Resource.Id.btn_MainMenu_Map);
 
-			button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
+			var buttonWeb = FindViewById<Button>(Resource.Id.btn_MainMenu_Web);
+
+			//buttonMap.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
+			buttonWeb.Click += delegate 
+			{
+				Intent webActivity = new Intent(this, typeof(MyWebActivity));
+
+				webActivity.PutExtra("Url", "https://stackoverflow.com");
+
+				StartActivity(webActivity);	
+			};
+
+			var buttonList = FindViewById<Button>(Resource.Id.btn_MainMenu_List);
+			buttonList.Click += delegate 
+			{
+				Intent listActivity = new Intent(this, typeof(MyListActivity));
+
+				StartActivity(listActivity);
+			};
 		}
 	}
 }
